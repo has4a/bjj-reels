@@ -1,17 +1,18 @@
 import { useState } from 'react';
-import { codeOf, embedUrl } from '../lib/url';
 import { formatDate } from '../lib/text';
 import { useStore } from '../state/store';
 import { KIND_LABEL, type Reel } from '../types';
-import { IconPlay, IconStar, IconStarFilled } from '../ui/icons';
+import { IconExternal, IconPlay, IconStar, IconStarFilled } from '../ui/icons';
+import { ReelVideo, hasVideo } from './ReelVideo';
 
-/** Hlavička reelu: autor, dátum, IG kolekcie, popis z Instagramu a tlačidlo na otvorenie. */
-export function ReelSummary({ reel, preview }: { reel: Reel; preview?: boolean }) {
+/** Hlavička reelu: autor, video (Instagram embed), IG kolekcie, popis a odkaz na Instagram. */
+export function ReelSummary({ reel, video }: { reel: Reel; video?: boolean }) {
   const { update } = useStore();
   const [expanded, setExpanded] = useState(false);
+  const showVideo = !!video && hasVideo(reel);
   const text = [reel.title, reel.caption].filter(Boolean).join('\n\n');
-  const long = text.length > 280 || text.split('\n').length > 6;
-  const embed = preview ? embedUrl(reel.kind, codeOf(reel.id, reel.kind)) : null;
+  const lines = showVideo ? 3 : 6;
+  const long = text.length > (showVideo ? 160 : 280) || text.split('\n').length > lines;
 
   return (
     <div className="summary">
@@ -35,6 +36,8 @@ export function ReelSummary({ reel, preview }: { reel: Reel; preview?: boolean }
         {reel.source === 'manual' && (reel.savedAt ? ' · pridané ručne' : ' ručne')}
       </div>
 
+      {showVideo && <ReelVideo key={reel.id} reel={reel} />}
+
       {reel.igCollections.length > 0 && (
         <div className="igcols" aria-label="Kolekcie na Instagrame">
           {reel.igCollections.map((c) => (
@@ -46,7 +49,7 @@ export function ReelSummary({ reel, preview }: { reel: Reel; preview?: boolean }
       )}
 
       {text ? (
-        <div className={`caption-full${long && !expanded ? ' clamped' : ''}`}>
+        <div className={`caption-full${long && !expanded ? ` clamped l${lines}` : ''}`}>
           <p>{text}</p>
           {long && (
             <button type="button" className="link-btn" onClick={() => setExpanded((v) => !v)}>
@@ -58,22 +61,15 @@ export function ReelSummary({ reel, preview }: { reel: Reel; preview?: boolean }
         <p className="faint caption-empty">Instagram k tomuto reelu neposlal popis.</p>
       )}
 
-      {embed && (
-        <div className="embed">
-          <iframe
-            key={embed}
-            src={embed}
-            title={`Náhľad reelu od ${reel.author ?? 'autora'}`}
-            loading="lazy"
-            allow="encrypted-media; picture-in-picture; fullscreen"
-            sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
-          />
-        </div>
+      {showVideo ? (
+        <a className="btn block open-ig" href={reel.url} target="_blank" rel="noopener noreferrer">
+          <IconExternal size={17} /> Otvoriť na Instagrame
+        </a>
+      ) : (
+        <a className="btn primary lg block open-ig" href={reel.url} target="_blank" rel="noopener noreferrer">
+          <IconPlay size={18} /> Otvoriť na Instagrame
+        </a>
       )}
-
-      <a className="btn primary lg block open-ig" href={reel.url} target="_blank" rel="noopener noreferrer">
-        <IconPlay size={18} /> Otvoriť na Instagrame
-      </a>
     </div>
   );
 }

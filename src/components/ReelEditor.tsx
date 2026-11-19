@@ -8,7 +8,7 @@ import { ReelSummary } from './ReelSummary';
 
 /** Detail reelu ako spodný panel (route #/reel/<id>). */
 export function ReelEditor({ id }: { id: string }) {
-  const { byId, update, remove } = useStore();
+  const { byId, update, remove, settings } = useStore();
   const confirm = useConfirm();
   const toast = useToast();
   const reel = byId.get(id);
@@ -65,7 +65,7 @@ export function ReelEditor({ id }: { id: string }) {
         </>
       }
     >
-      <ReelSummary reel={reel} />
+      <ReelSummary reel={reel} video={settings.showVideo} />
       <Classifier reel={reel} />
     </Sheet>
   );

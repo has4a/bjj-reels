@@ -59,3 +59,13 @@ export const IconLayers = make(['M12 2 2 7l10 5 10-5-10-5z', 'M2 17l10 5 10-5', 
 export const IconShare = make(['M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8', 'M16 6l-4-4-4 4', 'M12 2v13']);
 export const IconCheck = make(['M20 6 9 17l-5-5']);
 export const IconPencilLine = make(['M3 21h18', 'M14.5 4.5l3 3L8 17H5v-3l9.5-9.5z']);
+export const IconFilm = make([
+  'M4 3h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z',
+  'M7.5 3v18',
+  'M16.5 3v18',
+  'M3 7.5h4.5',
+  'M3 12h18',
+  'M3 16.5h4.5',
+  'M16.5 7.5H21',
+  'M16.5 16.5H21',
+]);

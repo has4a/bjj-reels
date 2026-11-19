@@ -45,6 +45,7 @@ Potom otvor <http://localhost:4173>.
 
 1. **Najprv hromadne podľa IG kolekcií.** V Knižnici otvor Filtre → *Kolekcie z Instagramu* → napr. „BJJ - armbar“. Potom **Hromadne** → typ `submission` + tag `armbar` → Použiť. Takto spracuješ všetko, čo už máš roztriedené v Instagrame.
 2. **Zvyšok v Triedení.** Ukazuje jeden netriedený reel naraz s veľkými tlačidlami.
+   - Video je hore priamo v appke (na počítači vľavo, tlačidlá vpravo).
    - Každá zmena sa ukladá hneď a tlačidlo **Ďalší** posunie na ďalší reel.
    - Nie-BJJ reel pošli preč tlačidlom **Mimo BJJ** (dá sa vrátiť).
    - Hore si môžeš vybrať len jednu IG kolekciu.
@@ -120,7 +121,7 @@ Prehliadač môže pri nedostatku miesta zmazať dáta stránok. Appka preto ži
 - Export a zálohy obsahujú osobné údaje, preto sú v `.gitignore` (`saved/`, `export/`, `saved_*.json`, `*.zip`, `bjj-reels-zaloha-*.json` …). Nenahrávaj ich na GitHub ani na hosting.
 - Import sa spracuje v prehliadači. Súbor sa nikam neposiela.
 - Odkaz na Instagram sa otvára v novej karte (`noopener noreferrer`).
-- **Náhľad** v Triedení je voliteľný a predvolene vypnutý. Keď ho zapneš, načíta oficiálny Instagram embed (iframe) priamo v appke. Video nestiahne, ale Instagram uvidí, že si reel otvoril, rovnako ako pri bežnom otvorení odkazu.
+- **Videá** sa zobrazujú cez oficiálny Instagram embed (iframe) v Knižnici, v Triedení aj v detaile. Nič sa nesťahuje ani nescrapuje, video sa prehrá z Instagramu a potrebuje internet. Instagram pri tom vidí, ktoré reels si pozeráš, rovnako ako pri bežnom otvorení odkazu. Vypnúť sa dajú v **Nastavenia → Videá**, v Knižnici prepína kompaktný zoznam tlačidlo s filmom.
 
 ## Vývoj
 
@@ -167,6 +168,7 @@ tests/              vitest (syntetické dáta v rovnakom tvare ako export)
 
 ## Obmedzenia
 
-- Export neobsahuje náhľady videí, preto karty ukazujú autora a popis.
+- Reels s pôvodným zvukom sa prehrajú priamo v appke. Pri reeloch s licencovanou hudbou Instagram prehrávanie v embede nepovoľuje: ukáže náhľad s „Watch on Instagram“ a otvorí reel vo svojej appke. Toto obmedzenie je na strane Instagramu.
+- Videá potrebujú internet. Offline appka funguje, ale namiesto videa ukáže správu.
 - Zdieľacie odkazy `instagram.com/share/…` sa nedajú spárovať s exportom. Pri ďalšom importe môže byť taký reel dvakrát. Lepšie je použiť *Kopírovať odkaz*.
 - Mobil a počítač sa nesynchronizujú, prenos ide cez zálohu.

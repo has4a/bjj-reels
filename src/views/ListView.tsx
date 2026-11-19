@@ -19,16 +19,18 @@ import { useStore } from '../state/store';
 import { usePersistentState } from '../state/usePersistentState';
 import { GI_LABEL, LEVEL_LABEL, STATUSES, STATUS_LABEL } from '../types';
 import { Belt, BrandMark, Chip } from '../ui/controls';
-import { IconFilter, IconLayers, IconSearch, IconStarFilled, IconX } from '../ui/icons';
+import { IconFilm, IconFilter, IconLayers, IconSearch, IconStarFilled, IconX } from '../ui/icons';
 import { ImportPanel } from './SettingsView';
 
 const PAGE = 48;
 type ArrKey = 'positions' | 'types' | 'gi' | 'levels' | 'statuses' | 'tags' | 'igCollections';
 
 export function ListView() {
-  const { reels, update } = useStore();
+  const { reels, update, settings } = useStore();
   const [filters, setFilters] = usePersistentState<Filters>('bjj.filters', EMPTY_FILTERS);
   const [sort, setSort] = usePersistentState<SortKey>('bjj.sort', 'saved-desc');
+  const [videoMode, setVideoMode] = usePersistentState<boolean>('bjj.listVideo', true);
+  const showVideos = settings.showVideo && videoMode;
   const [sheet, setSheet] = useState<'filters' | 'bulk' | null>(null);
   const [limit, setLimit] = useState(PAGE);
   const sentinel = useRef<HTMLDivElement>(null);
@@ -117,6 +119,18 @@ export function ListView() {
               </button>
             )}
           </label>
+          {settings.showVideo && (
+            <button
+              type="button"
+              className={`icon-btn${videoMode ? ' on' : ''}`}
+              aria-pressed={videoMode}
+              onClick={() => setVideoMode((v) => !v)}
+              aria-label="Videá v zozname"
+              title={videoMode ? 'Skryť videá (kompaktný zoznam)' : 'Zobraziť videá v zozname'}
+            >
+              <IconFilm size={19} />
+            </button>
+          )}
           <button type="button" className="icon-btn" onClick={() => setSheet('filters')} aria-label={`Filtre${active ? ` (${active} aktívnych)` : ''}`}>
             <IconFilter size={19} />
             {active > 0 && <span className="badge">{active}</span>}
@@ -168,9 +182,9 @@ export function ListView() {
       </div>
 
       {results.length ? (
-        <div className="grid">
+        <div className={`grid${showVideos ? ' videos' : ''}`}>
           {results.slice(0, limit).map((r) => (
-            <ReelCard key={r.id} reel={r} onEdit={onEdit} onAuthor={onAuthor} onFavorite={onFavorite} />
+            <ReelCard key={r.id} reel={r} video={showVideos} onEdit={onEdit} onAuthor={onAuthor} onFavorite={onFavorite} />
           ))}
         </div>
       ) : (

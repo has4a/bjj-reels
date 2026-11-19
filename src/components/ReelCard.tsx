@@ -4,20 +4,23 @@ import { formatDate } from '../lib/text';
 import { GI_LABEL, KIND_LABEL, LEVEL_LABEL, STATUS_LABEL, type Reel } from '../types';
 import { Belt } from '../ui/controls';
 import { IconExternal, IconPencilLine, IconStar, IconStarFilled } from '../ui/icons';
+import { ReelVideo, hasVideo } from './ReelVideo';
 
 interface Props {
   reel: Reel;
+  video: boolean;
   onEdit: (id: string) => void;
   onAuthor: (author: string) => void;
   onFavorite: (id: string) => void;
 }
 
-export const ReelCard = memo(function ReelCard({ reel, onEdit, onAuthor, onFavorite }: Props) {
+export const ReelCard = memo(function ReelCard({ reel, video, onEdit, onAuthor, onFavorite }: Props) {
   const text = reel.title || reel.caption;
   const attrs = [reel.gi && GI_LABEL[reel.gi], reel.level && LEVEL_LABEL[reel.level]].filter(Boolean).join(' · ');
   const unsorted = isUnsorted(reel);
+  const withVideo = video && hasVideo(reel);
   return (
-    <article className={`card st-${reel.status}${reel.hidden ? ' is-hidden' : ''}`}>
+    <article className={`card st-${reel.status}${reel.hidden ? ' is-hidden' : ''}${withVideo ? ' with-video' : ''}`}>
       <header className="card-head">
         {reel.author ? (
           <button type="button" className="author" onClick={() => onAuthor(reel.author!)} title={`Všetko od @${reel.author}`}>
@@ -38,6 +41,8 @@ export const ReelCard = memo(function ReelCard({ reel, onEdit, onAuthor, onFavor
           {reel.favorite ? <IconStarFilled size={18} /> : <IconStar size={18} />}
         </button>
       </header>
+
+      {withVideo && <ReelVideo reel={reel} lazy />}
 
       <a className="card-body" href={reel.url} target="_blank" rel="noopener noreferrer">
         <p className={`caption${text ? '' : ' faint'}`}>{text || 'Bez popisu'}</p>

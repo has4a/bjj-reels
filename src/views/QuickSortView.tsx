@@ -177,9 +177,9 @@ export function QuickSortView() {
                 </optgroup>
               )}
             </select>
-            <label className="switch" title="Načíta oficiálny Instagram embed priamo tu (potrebuje internet)">
-              <input type="checkbox" checked={settings.preview} onChange={(e) => void saveSettings((s) => ({ ...s, preview: e.target.checked }))} />
-              <span>Náhľad</span>
+            <label className="switch" title="Video cez oficiálny Instagram embed (potrebuje internet)">
+              <input type="checkbox" checked={settings.showVideo} onChange={(e) => void saveSettings((s) => ({ ...s, showVideo: e.target.checked }))} />
+              <span>Video</span>
             </label>
           </div>
 
@@ -188,10 +188,12 @@ export function QuickSortView() {
               <div className="qs-pos faint num">
                 {idx + 1} / {queue?.length ?? 0}
               </div>
-              <div className="qs-card">
-                <ReelSummary reel={cur} preview={settings.preview} />
+              <div className="qs-body">
+                <div className="qs-card">
+                  <ReelSummary key={cur.id} reel={cur} video={settings.showVideo} />
+                </div>
+                <Classifier reel={cur} size="lg" />
               </div>
-              <Classifier reel={cur} size="lg" />
               <div className="qs-actions">
                 <div className="qs-actions-inner">
                   <button type="button" className="btn lg" onClick={prev} disabled={idx === 0} aria-label="Predchádzajúci reel">

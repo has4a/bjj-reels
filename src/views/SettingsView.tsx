@@ -22,6 +22,7 @@ export function SettingsView() {
       </header>
       <ImportPanel />
       <BackupPanel />
+      <VideoPanel />
       <ListEditor field="positions" title="Pozície" tone="pos" />
       <ListEditor field="types" title="Typy" tone="type" />
       <StoragePanel />
@@ -351,7 +352,7 @@ function BackupPanel() {
     });
     if (!ok) return;
     try {
-      await replaceAll(pending.reels, { ...DEFAULT_SETTINGS, preview: settings.preview, ...pending.settings });
+      await replaceAll(pending.reels, { ...DEFAULT_SETTINGS, showVideo: settings.showVideo, ...pending.settings });
       toast('Obnovené zo zálohy');
       setPending(null);
     } catch (e) {
@@ -410,6 +411,26 @@ function BackupPanel() {
           </p>
         </div>
       )}
+    </section>
+  );
+}
+
+// ---------------------------------------------------------------- videá
+
+function VideoPanel() {
+  const { settings, saveSettings } = useStore();
+  return (
+    <section className="panel" id="video">
+      <h2 className="display">Videá</h2>
+      <label className="switch big">
+        <input type="checkbox" checked={settings.showVideo} onChange={(e) => void saveSettings((s) => ({ ...s, showVideo: e.target.checked }))} />
+        <span>Zobrazovať videá priamo v appke</span>
+      </label>
+      <p className="lead">
+        Používa oficiálny Instagram embed – nič sa nesťahuje, video sa prehrá z Instagramu (treba internet). Reels s pôvodným zvukom sa
+        prehrajú priamo tu. Pri reeloch s licencovanou hudbou Instagram prehrávanie mimo svojej appky nepovoľuje – ukáže „Watch on Instagram“
+        a otvorí reel u seba. Instagram pri tom vidí, ktoré reels si pozeráš, rovnako ako keď ich otvoríš priamo.
+      </p>
     </section>
   );
 }

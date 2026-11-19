@@ -45,8 +45,8 @@ export interface Settings {
   bjjCollections: string[] | null;
   /** všetky IG kolekcie videné pri poslednom importe (nové kolekcie sa predvyberú podľa názvu) */
   knownCollections: string[];
-  /** náhľad cez oficiálny Instagram embed v rýchlom triedení */
-  preview: boolean;
+  /** videá cez oficiálny Instagram embed (Triedenie, detail, Knižnica) */
+  showVideo: boolean;
 }
 
 export const STATUSES: Status[] = ['new', 'drill', 'learned'];
@@ -91,5 +91,5 @@ export const DEFAULT_SETTINGS: Settings = {
   types: DEFAULT_TYPES,
   bjjCollections: null,
   knownCollections: [],
-  preview: false,
+  showVideo: true,
 };
