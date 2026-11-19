@@ -87,9 +87,11 @@ Obmedzenie: cez `http://` (nie `https://`) prehliadač nepovolí service worker.
 
 ### B) Ako statická stránka na GitHub Pages (plná PWA)
 
-Appka je nasadená z GitHub repa cez GitHub Actions ([.github/workflows/deploy.yml](.github/workflows/deploy.yml)). Každý push do vetvy `main` spustí testy, build a publikovanie na `https://<účet>.github.io/bjj-reels/`.
+**Adresa appky: <https://has4a.github.io/bjj-reels/>**
 
-Prvé nastavenie (raz):
+Appka je nasadená z repa [has4a/bjj-reels](https://github.com/has4a/bjj-reels) cez GitHub Actions ([.github/workflows/deploy.yml](.github/workflows/deploy.yml)). Každý push do vetvy `main` spustí testy, build a publikovanie. Priebeh uvidíš v záložke **Actions**.
+
+Prvé nastavenie (už hotové, pre prípad nového repa):
 
 1. Na GitHube vytvor prázdne verejné repo `bjj-reels` (bez README, licencie a .gitignore).
 2. V repe: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
