@@ -1,0 +1,21 @@
+node_modules/
+dist/
+dev-dist/
+coverage/
+*.local
+*.log
+.DS_Store
+Thumbs.db
+
+# Instagram export = osobné údaje. Nikdy necommitovať ani nenahrávať.
+saved/
+export/
+instagram-*/
+your_instagram_activity/
+saved_posts.json
+saved_collections.json
+saved_music.json
+*.zip
+
+# Zálohy z appky (obsahujú celý export + tvoje tagy)
+bjj-reels-zaloha-*.json
